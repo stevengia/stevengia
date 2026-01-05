@@ -332,7 +332,7 @@ section {
 
 .section-header {
   text-align: center;
-  margin-bottom: 80px;
+  margin-bottom: 40px;
 }
 
 .section-label {
@@ -352,6 +352,45 @@ section {
   font-size: 3.5em;
   font-weight: 800;
   letter-spacing: -2px;
+  margin-bottom: 30px;
+}
+
+.social-btn-container {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.social-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 32px;
+  background: transparent;
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  border-radius: 100px;
+  font-size: 1em;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.4s ease;
+}
+
+.social-link:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.4);
+  transform: translateY(-3px);
+}
+
+.social-link.strava {
+  background: #fc4c02;
+  border-color: #fc4c02;
+}
+
+.social-link.strava:hover {
+  background: #e34402;
+  border-color: #e34402;
+  box-shadow: 0 10px 30px rgba(252, 76, 2, 0.4);
 }
 
 .bento-grid {
