@@ -71,15 +71,43 @@ function displayActivities(activities) {
 function getActivityIcon(type) {
     const icons = {
         'Run': '🏃',
+        'VirtualRun': '🏃',
+        'TrailRun': '🏃',
         'Ride': '🚴',
+        'VirtualRide': '🚴',
+        'EBikeRide': '🚴',
+        'GravelRide': '🚴',
+        'MountainBikeRide': '🚴',
         'Swim': '🏊',
         'Workout': '💪',
         'WeightTraining': '🏋️',
         'Yoga': '🧘',
         'Hike': '🥾',
-        'Walk': '🚶'
+        'Walk': '🚶',
+        'Elliptical': '💪',
+        'StairStepper': '💪',
+        'Rowing': '🚣',
+        'Crossfit': '🏋️'
     };
-    return icons[type] || '🏃';
+    
+    // Check if we have an exact match first
+    if (icons[type]) {
+        return icons[type];
+    }
+    
+    // Check if the type contains certain keywords
+    if (type && type.toLowerCase().includes('ride')) {
+        return '🚴';
+    }
+    if (type && type.toLowerCase().includes('run')) {
+        return '🏃';
+    }
+    if (type && type.toLowerCase().includes('swim')) {
+        return '🏊';
+    }
+    
+    // Default fallback
+    return '💪';  // Changed from running to workout emoji
 }
 
 window.addEventListener('DOMContentLoaded', fetchStravaActivities);
