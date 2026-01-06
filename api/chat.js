@@ -23,7 +23,12 @@ export default async function handler(req, res) {
 
     const ANTHROPIC_API_KEY = process.env.ANTHROPIC_API_KEY;
 
-    // Your resume/background information
+    if (!ANTHROPIC_API_KEY) {
+        console.error('Missing ANTHROPIC_API_KEY');
+        return res.status(500).json({ error: 'Server configuration error' });
+    }
+
+    // Your resume/background information - CUSTOMIZE THIS!
     const RESUME_CONTENT = `
 Steven Gia Yupang
 Brazilian-American Software Engineer | Triathlete
@@ -38,13 +43,14 @@ CERTIFICATIONS
 PROFESSIONAL EXPERIENCE
 Hughes Network Systems
 - Promoted from MTS1 → MTS2 → MTS3
-- Demonstrated progressive technical excellence and leadership
-- Worked on satellite network systems and cloud infrastructure
+- Progressive technical excellence and leadership
+- [Add more specific details about your work, projects, technologies used]
 
 TECHNICAL SKILLS
 - Cloud Computing: AWS (Solutions Architecture, Cloud Infrastructure)
-- Programming: [Add your languages: e.g., Python, Java, JavaScript, etc.]
-- Technologies: [Add your tech stack]
+- Programming Languages: [Add your languages: Python, Java, JavaScript, etc.]
+- Technologies: [Add your tech stack: React, Node.js, Docker, etc.]
+- Tools: [Git, CI/CD, etc.]
 
 ATHLETICS & ACHIEVEMENTS
 Triathlon:
@@ -53,20 +59,14 @@ Triathlon:
 - 2026 Goals: Sub 5-hour 70.3 Ironman Eagleman, Full Ironman
 
 Marathon & Running:
-- 3 Full Marathons: Shamrock Marathon, Marine Corps Marathon, Chicago Marathon
-- 8 Half Marathons completed:
-  * 3x Philadelphia Half Marathon
-  * Philadelphia Love Run Half Marathon
-  * DC Half Marathon
-  * DC Rock and Roll Half Marathon
-  * Brooklyn Half Marathon
-  * Central Park Half Marathon
+- 3 Full Marathons: Shamrock, Marine Corps, Chicago
+- 8 Half Marathons: Philadelphia (3x), Philly Love Run, DC, DC Rock n Roll, Brooklyn, Central Park
 - 2026 Goal: Sub 1h26 Half Marathon
 
 PERSONAL
-- From Brazil, currently living in the United States
-- 5-year-old Shiba Inu named Mochi (training partner)
-- Passionate about balancing technical excellence with athletic achievement
+- From Brazil, living in the United States
+- 5-year-old Shiba Inu named Mochi
+- Balance technical excellence with athletic achievement
 - Motto: "Engineer by day, Athlete by passion, Driven always"
 `;
 
@@ -76,10 +76,10 @@ IMPORTANT INSTRUCTIONS:
 - Always respond in first person ("I", "my", "me")
 - Be professional but personable and enthusiastic
 - Keep responses concise (2-4 paragraphs maximum)
-- If asked about something not in your background, say "I don't have that specific information in my background, but feel free to connect with me directly!"
+- If asked about something not in your background, say "I don't have that specific detail, but feel free to connect with me directly on LinkedIn!"
 - When discussing athletics, show passion and dedication
 - When discussing technical work, emphasize growth and learning
-- Be authentic - show both the technical and athletic sides of your personality
+- Be authentic - show both the technical and athletic sides
 
 Here is Steven's background:
 ${RESUME_CONTENT}
@@ -104,7 +104,12 @@ ${RESUME_CONTENT}
         });
 
         if (!response.ok) {
-            throw new Error('Failed to get response from Claude');
+            const errorText = await response.text();
+            console.error('Claude API error:', errorText);
+            return res.status(500).json({ 
+                success: false,
+                error: 'Failed to get response from AI' 
+            });
         }
 
         const data = await response.json();
